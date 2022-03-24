@@ -96,6 +96,8 @@ cookie.add("cookie_id", "cookie_value", cookieOptions);
 cookie.get("cookie_id"); // => value
 ```
 
+The cookie with the id `cookie_id` will only be available on .get() if it's visible from where the code is called; the domain and/or path attribute will not have any effect when reading.
+
 #### Retrieving all cookies
 
 ```js
