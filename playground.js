@@ -1,5 +1,3 @@
 import Storage from "./index.js";
 
-const localStorage = new Storage(Storage.LOCAL_STORAGE);
-
-console.log(localStorage.getAll());
+const idb = new Storage(Storage.INDEXED_DB);

@@ -18,13 +18,13 @@ export function addCookie(identifier, value, options = {}, isSecured) {
   if (!identifier || !value) return;
   const { expires, ...rest } = options;
   let str = `${identifier}=${value}; expires=${getTTLDateString(expires)}; ${
-    isSecured ? "secure=true;" : ""
+    isSecured ? "secure=true; " : ""
   }`;
   Object.keys(rest).forEach((key) => (str += `${key}=${options[key]}; `));
   document.cookie = str;
 }
 
-export function deleteCookie(identifier) {
+export function deleteCookie(identifier, options = {}) {
   if (!identifier) return;
   document.cookie = `${identifier}=; expires=${getTTLDateString(
     null,
@@ -32,7 +32,7 @@ export function deleteCookie(identifier) {
   )}; path=/; `;
 }
 
-export function deleteAllCookies() {
+export function deleteAllCookies(options) {
   const all = getAllCookies();
-  if (all) Object.keys(all).forEach((key) => deleteCookie(key));
+  if (all) Object.keys(all).forEach((key) => deleteCookie(key, options));
 }

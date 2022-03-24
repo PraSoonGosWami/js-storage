@@ -11,7 +11,7 @@ export function getAllSStorage() {
   }, {});
 }
 
-export function addSStorage(identifier, value = "", options = {}) {
+export function addSStorage(identifier, value = "") {
   if (!identifier) return;
   let data = value;
   if (typeof data !== "string") data = JSON.stringify(data);

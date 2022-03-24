@@ -37,42 +37,42 @@ class Storage {
     this.isSecured = bool;
   }
 
-  get(identifier, currentStore) {
+  get(identifier, options) {
     if (this.type === Storage.COOKIE) return getCookie(identifier);
     if (this.type === Storage.LOCAL_STORAGE) return getLStorage(identifier);
     if (this.type === Storage.SESSION_STORAGE) return getSStorage(identifier);
     if (this.type === Storage.INDEXED_DB)
-      return this.idb.getByID(currentStore, identifier);
+      return this.idb.getByID(options.currentStore, identifier);
   }
-  getAll(currentStore) {
+  getAll(options) {
     if (this.type === Storage.COOKIE) return getAllCookies();
     if (this.type === Storage.LOCAL_STORAGE) return getAllLStorage();
     if (this.type === Storage.SESSION_STORAGE) return getAllSStorage();
-    if (this.type === Storage.INDEXED_DB) return this.idb.getAll(currentStore);
+    if (this.type === Storage.INDEXED_DB)
+      return this.idb.getAll(options.currentStore);
   }
   add(identifier, value, options) {
     this.type === Storage.COOKIE &&
       addCookie(identifier, value, options, this.isSecured);
     this.type === Storage.LOCAL_STORAGE &&
       addLStorage(identifier, value, options);
-    this.type === Storage.SESSION_STORAGE &&
-      addSStorage(identifier, value, options);
+    this.type === Storage.SESSION_STORAGE && addSStorage(identifier, value);
     if (this.type === Storage.INDEXED_DB)
       return this.idb.update(options.currentStore, value, identifier);
   }
-  delete(identifier, currentStore) {
+  delete(identifier, options) {
     this.type === Storage.COOKIE && deleteCookie(identifier);
     this.type === Storage.LOCAL_STORAGE && deleteLStorage(identifier);
     this.type === Storage.SESSION_STORAGE && deleteSStorage(identifier);
     if (this.type === Storage.INDEXED_DB)
-      return this.idb.deleteByID(currentStore, identifier);
+      return this.idb.deleteByID(options.currentStore, identifier);
   }
-  deleteAll(currentStore) {
+  deleteAll(options) {
     this.type === Storage.COOKIE && deleteAllCookies();
     this.type === Storage.LOCAL_STORAGE && deleteAllLStorage();
     this.type === Storage.SESSION_STORAGE && deleteAllSStorage();
     if (this.type === Storage.INDEXED_DB)
-      return this.idb.deleteAll(currentStore);
+      return this.idb.deleteAll(options.currentStore);
   }
 }
 
