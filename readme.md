@@ -95,8 +95,6 @@ cookie.add("cookie_id", "cookie_value", cookieOptions);
 cookie.get("cookie_id"); // => value
 ```
 
-The cookie with the id `cookie_id` will only be available on .get() if it's visible from where the code is called; the domain and/or path attribute will not have any effect when reading.
-
 #### Retrieving all cookies
 
 ```js
@@ -206,22 +204,21 @@ sessionStorage.deleteAll();
 ##### With `identifier` set to null as id is configured to autoIncrement in IDB_CONFIG
 
 ```js
-const IDB_CONFIG = {
-  databaseName: "ixora-db",
-  version: 1,
-  stores: [
-    {
-      name: "customers",
-      id: { keyPath: "id", autoIncrement: true },
-      indices: [
-        { name: "name", keyPath: "name", options: { unique: false } },
-        { name: "email", keyPath: "email", options: { unique: true } },
-      ],
-    },
-  ],
+const  IDB_CONFIG = {
+	databaseName:  "ixora-db",
+	version:  1,
+	stores: [{
+		name:  "customers",
+		id: { keyPath:  "id", autoIncrement:  true },
+		indices: [
+			{ name:  "name", keyPath:  "name", options: { unique:  false } },
+			{ name:  "email", keyPath:  "email", options: { unique:  true } },
+			],
+		},],
 };
-const idb = new Storage(Storage.INDEXED_DB, IDB_CONFIG);
-idb.add(null, data, { currentStore: "customers" });
+const  idb = new  Storage(Storage.INDEXED_DB,IDB_CONFIG);
+idb.add(null, data, {currentStore : "customers"}) => returns JS Promise
+
 ```
 
 ##### With `identifier` as id is NOT configured in IDB_CONFIG
