@@ -16,20 +16,22 @@ export function getAllCookies() {
 
 export function addCookie(identifier, value, options = {}, isSecured) {
   if (!identifier || !value) return;
-  const { expires, ...rest } = options;
-  let str = `${identifier}=${value}; expires=${getTTLDateString(expires)}; ${
-    isSecured ? "secure=true; " : ""
-  }`;
-  Object.keys(rest).forEach((key) => (str += `${key}=${options[key]}; `));
-  document.cookie = str;
+  const { expires, path = "/", ...rest } = options;
+  let composer = `${identifier}=${value};expires=${getTTLDateString(
+    expires
+  )};path=${path};`;
+  if (isSecured) composer += "secure=true;";
+  Object.keys(rest).forEach((key) => (composer += `${key}=${options[key]};`));
+  document.cookie = composer;
 }
 
 export function deleteCookie(identifier, options = {}) {
   if (!identifier) return;
-  document.cookie = `${identifier}=; expires=${getTTLDateString(
-    null,
-    true
-  )}; path=/; `;
+  let composer = `${identifier}=;expires=${getTTLDateString(null, true)};`;
+  if (options.path) composer += `path=${options.path};`;
+  if (options.domain) composer += `domain=${options.domain};`;
+  console.log(composer);
+  document.cookie = composer;
 }
 
 export function deleteAllCookies(options) {

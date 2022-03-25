@@ -82,7 +82,6 @@ const cookieOptions = {
   expires: 10, //(in minutes) default - Session
   priority: Storage.COOKIE_PRIORITY.HIGH, // default - Storage.COOKIE_PRIORITY.MEDIUM
   path: "/", // default - "/"
-  domain: "yourdomain.com", //default - undefined
 };
 // setting cookies secured
 cookie.cookieSecured = true;

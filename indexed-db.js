@@ -142,14 +142,14 @@ class IndexedDB {
           let request = objectStore.delete(id);
           request.onsuccess = (e) => {
             tx?.commit?.();
-            resolve(e);
+            resolve(e.target);
           };
         })
         .catch(reject);
     });
   }
   deleteAll(currentStore) {
-    return new Promise()((resolve, reject) => {
+    return new Promise((resolve, reject) => {
       this.#connectDB(this.config)
         .then((db) => {
           let tx = this.#createTransaction(
@@ -162,9 +162,9 @@ class IndexedDB {
           let objectStore = tx.objectStore(currentStore);
           objectStore.clear();
           tx.oncomplete = (e) => {
-            tx?.commit?.();
-            resolve(e);
+            resolve(e.target);
           };
+          tx?.commit?.();
         })
         .catch(reject);
     });
@@ -198,15 +198,12 @@ class IndexedDB {
           this.config.databaseName,
           this.config.version
         );
-
         request.onsuccess = (e) => {
           resolve(e.target.result);
         };
-
         request.onerror = (e) => {
-          reject(e.target.error.name);
+          reject(e.target.error);
         };
-
         request.onupgradeneeded = (e) => {
           const db = e.target.result;
           this.config.stores.forEach((s) => {
@@ -230,7 +227,9 @@ class IndexedDB {
     if (!db.objectStoreNames.contains(currentStore))
       reject(`Store ${currentStore} not found`);
     const tx = db.transaction(currentStore, dbMode);
-    tx.onerror = reject;
+    tx.onerror = (e) => {
+      reject(e.target.error);
+    };
     tx.oncomplete = resolve;
     tx.onabort = abort;
     return tx;

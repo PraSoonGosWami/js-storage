@@ -61,14 +61,14 @@ class Storage {
       return this.idb.update(options.currentStore, value, identifier);
   }
   delete(identifier, options) {
-    this.type === Storage.COOKIE && deleteCookie(identifier);
+    this.type === Storage.COOKIE && deleteCookie(identifier, options);
     this.type === Storage.LOCAL_STORAGE && deleteLStorage(identifier);
     this.type === Storage.SESSION_STORAGE && deleteSStorage(identifier);
     if (this.type === Storage.INDEXED_DB)
       return this.idb.deleteByID(options.currentStore, identifier);
   }
   deleteAll(options) {
-    this.type === Storage.COOKIE && deleteAllCookies();
+    this.type === Storage.COOKIE && deleteAllCookies(options);
     this.type === Storage.LOCAL_STORAGE && deleteAllLStorage();
     this.type === Storage.SESSION_STORAGE && deleteAllSStorage();
     if (this.type === Storage.INDEXED_DB)
